@@ -112,9 +112,9 @@ public final class FileStorageService {
 
                 try {
                     String[] parts = line.split("\\|", -1);
-                    if (parts.length != 8) {
+                    if (parts.length != 8 && parts.length != 11) {
                         throw new InvalidDataFormatException(
-                                "A donation record must contain 8 fields.");
+                                "A donation record must contain 8 or 11 fields.");
                     }
 
                     int quantity = Integer.parseInt(parts[5]);
@@ -123,8 +123,14 @@ public final class FileStorageService {
                                 "Donation quantity must be greater than zero.");
                     }
 
-                    donations.add(new Donation(parts[0], parts[1], parts[2],
-                            parts[3], parts[4], quantity, parts[6], parts[7]));
+                    if (parts.length == 8) {
+                        donations.add(new Donation(parts[0], parts[1], parts[2],
+                                parts[3], parts[4], quantity, parts[6], parts[7]));
+                    } else {
+                        donations.add(new Donation(parts[0], parts[1], parts[2],
+                                parts[3], parts[4], quantity, parts[6], parts[7],
+                                parts[8], parts[9], parts[10]));
+                    }
                 } catch (InvalidDataFormatException | NumberFormatException ex) {
                     skippedRecords++;
                 }

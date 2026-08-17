@@ -188,13 +188,15 @@ public class SummaryView {
                 writer.println();
 
                 writer.println("--- DONATIONS ---");
-                writer.println("Donation ID,Donor Name,Phone,Food Name,Category,Quantity,Expiry Date,Notes");
+                writer.println("Donation ID,Donor Name,Phone,Food Name,Category,Quantity,Expiry Date,Notes,Pickup Location,Date Submitted,Status");
                 for (Donation don : dataManager.getDonations()) {
-                    writer.printf("%s,%s,%s,%s,%s,%d,%s,%s%n",
+                    writer.printf("%s,%s,%s,%s,%s,%d,%s,%s,%s,%s,%s%n",
                             escapeCsv(don.getDonationId()), escapeCsv(don.getDonorName()),
                             escapeCsv(don.getPhone()), escapeCsv(don.getFoodName()),
                             escapeCsv(don.getCategory()), don.getQuantity(),
-                            escapeCsv(don.getExpiryDate()), escapeCsv(don.getNotes()));
+                            escapeCsv(don.getExpiryDate()), escapeCsv(don.getNotes()),
+                            escapeCsv(don.getPickupLocation()), escapeCsv(don.getDateSubmitted()),
+                            escapeCsv(don.getStatus()));
                 }
 
                 AlertUtil.showInformation("Export Successful", "Data exported successfully to:\n" + file.getAbsolutePath());

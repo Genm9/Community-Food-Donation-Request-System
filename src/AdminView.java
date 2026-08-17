@@ -188,6 +188,9 @@ public class AdminView {
                     + "\nCategory: " + donation.getCategory()
                     + "\nQuantity: " + donation.getQuantity()
                     + "\nExpiry Date: " + donation.getExpiryDate()
+                    + "\nPickup Location: " + donation.getPickupLocation()
+                    + "\nDate Submitted: " + donation.getDateSubmitted()
+                    + "\nStatus: " + donation.getStatus()
                     + "\nNotes: " + donation.getNotes());
         } else {
             if (selectedIndex >= displayedRequests.size()) {
