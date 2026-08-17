@@ -1,28 +1,49 @@
 # Community Food Donation and Request System
-## JavaFX Dashboard, Storage and Authentication Module
 
-This JavaFX project implements the **Community Food Donation and Request System**. It allows users to register food donations, submit food assistance requests, and view donation and request records. It also includes an optional administrator screen for reviewing requests and updating their status.
+## JavaFX dashboard, authentication, storage, and record management
 
-The project includes English **Login** and **Register** screens. Registered accounts are stored locally in `data/accounts.txt`. Every Java source file is placed directly inside the `src/` folder, and the source files use Java's default package without package declarations.
+The **Community Food Donation and Request System** is a JavaFX desktop application for recording food donations and food-assistance requests. Users can create accounts, sign in, submit donation or request records, review summaries, export records as CSV, and save data locally. Administrator accounts can additionally review records, update request statuses, search data, delete records, and use the CSV export function when a spreadsheet-compatible copy of the records is needed.
 
-The source has been compiled successfully with **JDK 21** and **JavaFX Controls**. The storage workflow supports saving records, loading records, updating request status, deleting records, calculating totals, registering accounts, and authenticating users.
+The project uses Java's **default package**: all Java source files are stored directly under `src/` and do not contain package declarations. The current project layout and source list are documented in [`file_manifest.txt`][1].
 
-## Flat Source Structure
+## Features
 
-Although the files are logically grouped by responsibility, there are no Java package folders. This keeps the source structure simple for a beginner JavaFX project.
+| Feature | Description |
+|---|---|
+| Account registration | Creates normal `User` accounts, validates the input, checks for duplicate usernames, and stores account data locally. |
+| Role-based login | Routes normal users to the User Dashboard and administrators to the Admin Dashboard after authentication. |
+| Donation management | Allows users to submit food donation information, including donor details, food category, quantity, expiry date, and notes. |
+| Food-assistance requests | Allows users to submit requests containing requester details, family size, category needed, urgency, and notes. |
+| Record management | Allows administrators to search records, view details, update request status, and delete records. |
+| Summary dashboard | Displays donation and request information, totals, and application status. |
+| Local persistence | Saves accounts, donations, and requests to text files under the `data/` directory. |
+| CSV export | Exports donation and request records in comma-separated values format so they can be opened in spreadsheet applications or used for reporting. |
+| Scrollable forms | Wraps the Donation and Request forms in JavaFX `ScrollPane` containers so all input fields remain accessible when the window is too short to display the complete form. |
+| Form validation | Checks required fields, phone numbers, positive quantities, passwords, confirmation fields, and other input rules. |
+| Logout | Clears the current login session and returns the application to the Login screen without deleting saved records. |
 
-| Logical responsibility | Java files directly under `src/` | Purpose |
-|---|---|---|
-| Application and navigation | `FoodDonationApp.java`, `AppNavigator.java` | Starts JavaFX, controls login state, and coordinates role-based screen navigation. |
-| Authentication | `LoginView.java`, `RegisterView.java`, `UserAccount.java`, `AdminDashboardView.java` | Allows users to create accounts, login, and route automatically to the correct dashboard based on role. |
-| Model classes | `Donation.java`, `FoodRequest.java` | Represents donation and food-assistance request objects. |
-| Storage | `DataManager.java`, `FileStorageService.java`, `LoadReport.java` | Manages objects and saves/loads donation, request, and account text files. |
-| User interface | `DashboardView.java`, `AdminDashboardView.java`, `AdminView.java`, `SummaryView.java`, `DonationFormView.java`, `RequestFormView.java` | Builds modern JavaFX screens and handles user-interface events. |
-| Shared UI utilities | `UiStyle.java`, `NavigationMenu.java` | Provides modern colours, cards, input styles, reusable taskbars, hover effects, and active-page highlighting. |
-| Utilities | `AlertUtil.java`, `ValidationUtil.java` | Provides reusable alert and validation methods. |
-| Exception handling | `InvalidDataFormatException.java` | Represents invalid form or file data. |
+## Requirements
 
-## Project Structure
+The Windows launcher is configured for the following environment:
+
+| Requirement | Version or configuration |
+|---|---|
+| Operating system | Windows with Command Prompt or double-click support for `.bat` files |
+| Java Development Kit | JDK 21 or a compatible JDK that provides `java` and `javac` |
+| JavaFX SDK | JavaFX SDK 21.0.11, or another compatible JavaFX SDK installed locally |
+| JavaFX module | `javafx.controls` |
+
+The JavaFX library path currently configured in [`run.bat`][2] is:
+
+```text
+C:\Program Files\Java\javafx-sdk-21.0.11\lib
+```
+
+If JavaFX is installed elsewhere, update the `JAVAFX_LIB` value in `run.bat` before starting the application.
+
+## Project structure
+
+The source files use a flat structure rather than Java package folders. The following table reflects the current file manifest.
 
 ```text
 CommunityFoodDashboardStorage/
@@ -45,53 +66,48 @@ CommunityFoodDashboardStorage/
 │   ├── RequestFormView.java
 │   ├── SummaryView.java
 │   ├── UserAccount.java
-│   ├── ValidationUtil.java
-│   ├── UiStyle.java
-│   └── NavigationMenu.java
-
-├── data/                         # Created automatically after data is saved
-├── out/                          # Compiled classes, created by run.bat
+│   └── ValidationUtil.java
+├── data/                         # Created or populated when application data is saved
+├── out/                          # Compiled class files created by run.bat
 ├── README.md
+├── file_manifest.txt
 └── run.bat
 ```
 
-## Main System Functions
+### Source file responsibilities
 
-| Feature | Responsible files | Description |
+| Area | Files | Responsibility |
 |---|---|---|
-| User registration | `RegisterView.java`, `DataManager.java` | Creates a username and password, checks duplicate usernames, validates password confirmation, and saves the account. |
-| User/Admin login | `LoginView.java`, `DataManager.java`, `FoodDonationApp.java` | Checks credentials and automatically routes `User` accounts to the User Dashboard and `Admin` accounts to the Admin Dashboard. |
-| Logout | `DashboardView.java`, `FoodDonationApp.java` | Clears the current login and returns to the Login screen. |
-| User Dashboard | `DashboardView.java`, `NavigationMenu.java`, `UiStyle.java` | Shows the signed-in user, modern statistic cards, storage status, and highlights the active Dashboard taskbar button. |
-| Admin Dashboard | `AdminDashboardView.java`, `NavigationMenu.java`, `UiStyle.java` | Shows administrator statistics, uses the Admin colour theme, and highlights the active Admin Dashboard taskbar button. |
-| Register food donations | `DonationFormView.java`, `DataManager.java` | Allows a user to submit food donation information. |
-| Submit food assistance requests | `RequestFormView.java`, `DataManager.java` | Allows a user to submit a request for food assistance. |
-| View records | `AdminView.java`, `SummaryView.java`, `NavigationMenu.java` | Shows donation and request records and highlights `Manage Records` or `Summary` when those pages are open. |
-| Administrator functions | `AdminDashboardView.java`, `AdminView.java`, `DataManager.java` | Allows Admin accounts to search records, update request status, display details, and delete records. |
-| File save/load | `FileStorageService.java` | Stores donations, requests, and accounts in separate text files. |
-| Form validation | `ValidationUtil.java`, `InvalidDataFormatException.java` | Checks required fields, phone numbers, positive integers, passwords, and confirmation fields. |
+| Application and navigation | `FoodDonationApp.java`, `AppNavigator.java` | Starts JavaFX, owns the main application flow, controls the current view, and coordinates navigation after login. |
+| Authentication | `LoginView.java`, `RegisterView.java`, `UserAccount.java` | Registers users, authenticates accounts, stores account roles, and provides login-related views. |
+| User and administrator views | `DashboardView.java`, `AdminDashboardView.java`, `AdminView.java`, `SummaryView.java` | Displays user and administrator dashboards, record-management screens, and summary information. |
+| Data models | `Donation.java`, `FoodRequest.java` | Represents food donation and food-assistance request records. |
+| Forms and responsive layout | `DonationFormView.java`, `RequestFormView.java` | Collects and validates donation and request data, and uses JavaFX `ScrollPane` containers so users can scroll through the complete forms when the available window height is limited. |
+| Storage and reporting | `DataManager.java`, `FileStorageService.java`, `LoadReport.java` | Manages in-memory records, saves and loads text files, generates record IDs, and reports loading results. |
+| Validation and alerts | `ValidationUtil.java`, `AlertUtil.java`, `InvalidDataFormatException.java` | Provides reusable validation, alert, and invalid-data handling functionality. |
 
-## Run the Application
+## Run the application on Windows
 
-The project uses standard Java source files and does not require Maven or Gradle. Install a JDK and JavaFX SDK first. This Windows version uses the JavaFX SDK path configured in `run.bat`:
+The project does not use Maven or Gradle. The included batch script compiles all Java files in `src/` and launches the `FoodDonationApp` main class.
 
-```text
-C:\Program Files\Java\javafx-sdk-21.0.11\lib
-```
+### Automatic run
 
-### Windows automatic run
-
-Open the project folder and double-click `run.bat`. Alternatively, open Command Prompt in the project folder and run:
+Open the project folder and double-click `run.bat`. You can also open Command Prompt in the project folder and execute:
 
 ```bat
 run.bat
 ```
 
-The batch file automatically compiles every `.java` file in `src`, writes compiled classes to `out`, and starts `FoodDonationApp`. If your JavaFX SDK is installed in a different location, edit the `JAVAFX_LIB` line in `run.bat`. Keep the quotation marks because the path contains spaces.
+The script performs the following steps:
 
-### Windows manual compile and run command
+1. Changes the working directory to the folder containing `run.bat`.
+2. Checks whether `javafx.controls.jar` exists in the configured JavaFX library directory.
+3. Removes and recreates the `out/` directory.
+4. Compiles every Java file in `src/` with `javac`.
+5. Starts `FoodDonationApp` with the JavaFX `controls` module.
+6. Pauses and displays an error message if the JavaFX library is missing, compilation fails, or the application exits with an error.
 
-Open Command Prompt in the project folder and execute:
+The relevant commands in the script are equivalent to:
 
 ```bat
 if exist out rmdir /s /q out
@@ -102,11 +118,33 @@ javac --module-path "C:\Program Files\Java\javafx-sdk-21.0.11\lib" --add-modules
 java --module-path "C:\Program Files\Java\javafx-sdk-21.0.11\lib" --add-modules javafx.controls -cp out FoodDonationApp
 ```
 
-Because the project uses the default package, the main class is simply `FoodDonationApp`. If Windows reports that `java` or `javac` is not recognised, install a JDK and add its `bin` folder to the Windows PATH.
+Because the project uses the default package, the main class is invoked as `FoodDonationApp`, without a package-qualified name.
 
-## Data File Formats
+### Troubleshooting
 
-The application automatically creates the `data` folder and stores one record per line. On first startup, it also creates the demonstration administrator account `admin` with password `admin123` if no Admin account already exists.
+| Problem | Recommended action |
+|---|---|
+| `java` or `javac` is not recognised | Install JDK 21 and add the JDK `bin` directory to the Windows `PATH`. Open a new Command Prompt after changing `PATH`. |
+| JavaFX library was not found | Confirm that `javafx.controls.jar` exists under the configured JavaFX `lib` directory, or change `JAVAFX_LIB` in `run.bat`. |
+| Compilation fails | Read the compiler output, confirm that all source files are present under `src/`, and verify that the JDK and JavaFX SDK versions are compatible. |
+| Old compiled classes cause confusion | Run `run.bat`, which deletes and recreates `out/` before compiling. |
+| Saved data is not visible | Confirm that the application is launched from the project folder and inspect the `data/` directory for the relevant text files. |
+
+## Data storage
+
+The application uses local text files rather than a database. The `data/` directory is created or populated when records are saved. Each record occupies one line, and fields are separated by the pipe character (`|`). The application sanitises pipe characters and line breaks in user-entered text before saving so that records remain readable.
+
+## CSV export
+
+The application includes an **Export CSV** function for producing a spreadsheet-compatible copy of donation and food-assistance request records. CSV files are useful for reporting, filtering, sorting, printing, and sharing records with team members who do not need to open the JavaFX application.
+
+CSV export is a reporting function and does not replace the application's normal text-file persistence. Continue using the application's save and load functions to maintain the local `data/` files used when the application starts or reloads records. When opening an exported file in a spreadsheet program, verify that the columns are interpreted correctly and that values containing commas are displayed as a single field.
+
+## Scrollable donation and request forms
+
+The Donation and Request forms now use JavaFX `ScrollPane` containers. This layout improvement keeps the form usable when the application window is smaller than the full set of input controls. Users can scroll vertically to reach fields, validation messages, and action buttons that would otherwise be below the visible area.
+
+The scrollable layout is especially useful on smaller laptop screens and when the form contains optional notes or additional request details. Resizing the window does not remove any fields; users can access the complete form by scrolling within the content area.
 
 ### `data/accounts.txt`
 
@@ -144,17 +182,20 @@ Example:
 R001|Siti Aminah|0189999999|4|Dry Food|High|Family has young children|Pending
 ```
 
-The pipe symbol (`|`) is the text-file separator. The program replaces pipes and line breaks in user text before saving so the file format remains readable.
+> **Security note:** This is an educational local text-file authentication system. Passwords are stored in the local account file and the project is not intended to provide production-level password security.
 
-> This is an educational local text-file login system for the course project. It is not intended to provide production-level password security.
+## Authentication and roles
 
-## Role-Based Authentication Flow
+When the application starts, `FoodDonationApp` loads the saved account and system data, creates the required data-management objects, and displays the shared `LoginView`. A new normal user can select **Register New Account**, enter a username, password, and confirmation password, and create an account. The registration flow creates the role `User`; users cannot assign themselves the `Admin` role through the registration screen.
 
-When the application starts, `FoodDonationApp` loads saved records and account data, creates the demonstration administrator account if necessary, and displays one shared `LoginView`. A new normal user selects **Register New Account**, enters a username, password, and confirmation password, and clicks **Create Account**. The Register page always creates the role `User`; users cannot register themselves as administrators.
+After successful authentication, the application routes the account according to its role:
 
-After a successful login, `completeLogin()` receives both the username and role. A `User` account is routed to `DashboardView`, where the user can donate food, request food assistance, view summaries, and save or load data. An `Admin` account is routed to `AdminDashboardView`, where the administrator can open `AdminView`, review records, update request statuses, view Summary, and save or load data. The regular User Dashboard does not display the Manage Records button, and `showAdminView()` also checks the role before opening the administrator screen.
+| Role | Destination | Available capabilities |
+|---|---|---|
+| `User` | `DashboardView` | Submit donations, submit food-assistance requests, view summaries, save or load data, and log out. |
+| `Admin` | `AdminDashboardView` | Review records, search and inspect data, update request statuses, delete records, view summaries, save or load data, and log out. |
 
-The demonstration administrator account is:
+The demonstration administrator account described by the original project documentation is:
 
 ```text
 Username: admin
@@ -162,11 +203,13 @@ Password: admin123
 Role: Admin
 ```
 
-After login, both roles have a **Logout** button. Logout clears the current username and role and returns to Login without deleting saved records. All authenticated pages use the shared `NavigationMenu` taskbar. The active page is displayed with an accent-colour background, white text, bold font, and a left border so users can immediately see whether they are on Dashboard, Donate Food, Request Food, Summary, or Manage Records.
+For a classroom demonstration, change or remove this default account before using the application with real data. Logout clears the current username and role but does not delete saved records.
 
-## Integration with Other Team Members
+## Integration guidance for team members
 
-Because all classes use the default package, teammates do not need to write imports for the project classes. They can directly create and use the shared objects:
+All classes use the default package, so project classes do not require package imports. Forms should use the existing shared `DataManager` instance instead of creating a second data manager. Keeping one shared instance ensures that records entered in one view are immediately available to the other views and to the summary and administrator screens.
+
+A donation can be added through the shared manager using the following pattern:
 
 ```java
 Donation donation = new Donation(
@@ -182,7 +225,7 @@ Donation donation = new Donation(
 dataManager.addDonation(donation);
 ```
 
-A food request form can directly use:
+A food-assistance request can be added with the following pattern:
 
 ```java
 FoodRequest request = new FoodRequest(
@@ -198,21 +241,21 @@ FoodRequest request = new FoodRequest(
 dataManager.addRequest(request);
 ```
 
-The most important integration rule is that the application must use **one shared `DataManager` object**. Do not create another `new DataManager()` inside a teammate's form class.
-
-The current navigation methods in `FoodDonationApp` are:
+The existing application navigation uses the shared data manager and navigator when opening the forms:
 
 ```java
 setRoot(new DonationFormView(dataManager, this).build());
 setRoot(new RequestFormView(dataManager, this).build());
 ```
 
-When the final team forms are ready, replace those two view class names while keeping the shared `dataManager` and navigator argument.
+If the team replaces either form class, preserve the shared `dataManager` and navigator arguments unless the application architecture is intentionally changed.
 
-## Demonstration Flow
+## Suggested demonstration flow
 
-First login with the demonstration administrator account to show the separate **Admin Dashboard**. Open **Manage Records**, select **Food Requests**, change a selected request from **Pending** to **Approved**, and then open **Summary** to demonstrate the updated total. Logout, select **Register New Account**, create a normal user account, and login again. The **User Dashboard** should show Donate Food and Request Food but should not show Manage Records. Submit one donation and one food request, click **Save Data**, close the program, reopen it, login again, and use **Load Data** to show that the account and system records are recovered from text files.
+For a classroom or project presentation, first sign in with the demonstration administrator account and show the separate Admin Dashboard. Open the record-management screen, select a food request, change its status from `Pending` to `Approved`, and open Summary to demonstrate that the record status is reflected in the overview. Use **Export CSV** to create a spreadsheet-compatible copy of the donation or request records. Then log out, create a normal user account, and sign in as that user. Open the Donation and Request forms, demonstrate that the `ScrollPane` allows access to the complete form on a small window, submit one donation and one food-assistance request, save the data, close the application, reopen it, and load the saved records to demonstrate local persistence.
 
-## Suggested Presentation Explanation
+During the demonstration, explain that `FoodDonationApp` creates the JavaFX stage and controls application navigation; `LoginView` and `RegisterView` handle authentication; `DataManager` manages accounts, donations, and requests; `FileStorageService` handles text-file persistence; `DashboardView` is intended for normal users; and `AdminDashboardView` plus `AdminView` provide administrator functions. `SummaryView` presents the shared record overview, while `ValidationUtil`, `AlertUtil`, and `InvalidDataFormatException` support input checking and user feedback.
 
-Explain that `FoodDonationApp` creates the JavaFX `Stage`, loads the account and system files, and controls role-based navigation. Explain that `LoginView` and `RegisterView` use `TextField`, `PasswordField`, buttons, event handlers, validation, and alerts. Explain that `UiStyle` centralises the modern colour palette, cards, inputs, and button styles, while `NavigationMenu` creates the shared taskbar and changes the active page button colour. Explain that `UserAccount` stores a username, password, and role, while `DataManager` uses an `ArrayList` to manage accounts, donations, and requests. Explain that `FileStorageService` uses `PrintWriter`, `Scanner`, and try-with-resources for text-file I/O. Finally, explain that `DashboardView` is for normal users, `AdminDashboardView` and `AdminView` are for administrators, and `SummaryView` provides the shared record overview. The administrator functions are an optional enhancement of the required system.
+## Limitations and future improvements
+
+The current implementation is intentionally lightweight and suitable for an educational desktop project. It uses a flat source layout, local text-file storage, CSV export for reporting, scrollable JavaFX data-entry forms, and a simple role field. Potential future improvements include adding Java packages, replacing text files with a database, hashing passwords, introducing stronger session and permission handling, adding automated tests, supporting configurable JavaFX paths, and providing cross-platform launch scripts.
