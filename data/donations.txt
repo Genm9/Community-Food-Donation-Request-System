@@ -1,3 +1,2 @@
 D001|legacy-user|0123456789|Rice|Dry Food|5|2026-12-30|Sealed package|||PENDING
 D002|new-user|N/A|Canned Beans|Canned Goods|3|2026-12-31||Community Hall|2026-08-17|PENDING
-D003|111|N/A|rice|Grains & Rice|3|2026-08-17||suc|2026-08-17|PENDING

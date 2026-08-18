@@ -152,9 +152,9 @@ public final class FileStorageService {
 
                 try {
                     String[] parts = line.split("\\|", -1);
-                    if (parts.length != 8) {
+                    if (parts.length != 8 && parts.length != 11) {
                         throw new InvalidDataFormatException(
-                                "A food request record must contain 8 fields.");
+                                "A food request record must contain 8 or 11 fields.");
                     }
 
                     int familySize = Integer.parseInt(parts[3]);
@@ -163,8 +163,19 @@ public final class FileStorageService {
                                 "Family size must be greater than zero.");
                     }
 
-                    requests.add(new FoodRequest(parts[0], parts[1], parts[2],
-                            familySize, parts[4], parts[5], parts[6], parts[7]));
+                    if (parts.length == 8) {
+                        requests.add(new FoodRequest(parts[0], parts[1], parts[2],
+                                familySize, parts[4], parts[5], parts[6], parts[7]));
+                    } else {
+                        int quantity = Integer.parseInt(parts[9]);
+                        if (quantity <= 0) {
+                            throw new InvalidDataFormatException(
+                                    "Request quantity must be greater than zero.");
+                        }
+                        requests.add(new FoodRequest(parts[0], parts[1], parts[2],
+                                familySize, parts[4], parts[5], parts[6], parts[7],
+                                parts[8], quantity, parts[10]));
+                    }
                 } catch (InvalidDataFormatException | NumberFormatException ex) {
                     skippedRecords++;
                 }

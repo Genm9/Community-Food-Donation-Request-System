@@ -1,2 +1,0 @@
-R001|dinie|0123456789|3|Baby Food|High|no food already|Approved
-R002|dinie|0123456789|3|Dry Food|Medium|---|Rejected

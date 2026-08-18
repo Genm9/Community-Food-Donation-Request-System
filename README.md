@@ -13,7 +13,7 @@ The project uses Java's **default package**: all Java source files are stored di
 | Account registration | Creates normal `User` accounts, validates the input, checks for duplicate usernames, and stores account data locally. |
 | Role-based login | Routes normal users to the User Dashboard and administrators to the Admin Dashboard after authentication. |
 | Donation management | Uses the integrated FoodDonationSystem layout: Food Item, Quantity, Category, Expiry Date, Pickup Location, Submit/Clear actions, and personal donation history. The page keeps the user's blue theme and stores records in the shared DataManager. |
-| Food-assistance requests | Allows users to submit requests containing requester details, family size, category needed, urgency, and notes. |
+| Food-assistance requests | Uses the integrated request-module layout: Food item, Quantity, Reason, Low/Medium/High urgency radio buttons, Submit/Clear actions, and a personal My Submitted Requests history table. The module keeps the user's blue theme and stores extended request fields in the shared DataManager. |
 | Record management | Allows administrators to search records, view details, update request status, and delete records. |
 | Summary dashboard | Displays donation and request information, totals, and application status. |
 | Local persistence | Saves accounts, donations, and requests to text files under the `data/` directory. |
@@ -132,7 +132,7 @@ Because the project uses the default package, the main class is invoked as `Food
 
 ## Data storage
 
-The application uses local text files rather than a database. The `data/` directory is created or populated when records are saved. Each record occupies one line, and fields are separated by the pipe character (`|`). Donation records written by the integrated module use the original eight columns followed by `PickupLocation`, `DateSubmitted`, and `Status`; the loader remains backward-compatible with older eight-column donation rows. The application sanitises pipe characters and line breaks in user-entered text before saving so that records remain readable.
+The application uses local text files rather than a database. The `data/` directory is created or populated when records are saved. Each record occupies one line, and fields are separated by the pipe character (`|`). Donation records written by the integrated module use the original eight columns followed by `PickupLocation`, `DateSubmitted`, and `Status`; request records use the original eight columns followed by `FoodItem`, `Quantity`, and `DateSubmitted`. The loader remains backward-compatible with older eight-column donation and request rows, while newly saved records use the extended format. The application sanitises pipe characters and line breaks in user-entered text before saving so that records remain readable.
 
 ## CSV export
 
@@ -173,13 +173,13 @@ D001|Ali Tan|N/A|Rice|Dry Food|5|2026-12-30||Community Hall|2026-08-17|PENDING
 ### `data/requests.txt`
 
 ```text
-RequestID|RequesterName|Phone|FamilySize|CategoryNeeded|Urgency|Notes|Status
+RequestID|RequesterName|Phone|FamilySize|CategoryNeeded|Urgency|Notes|Status|FoodItem|Quantity|DateSubmitted
 ```
 
 Example:
 
 ```text
-R001|Siti Aminah|0189999999|4|Dry Food|High|Family has young children|Pending
+R001|Siti Aminah|N/A|1|Food Assistance|High|Family has young children|Pending|Rice|5|2026-08-17
 ```
 
 > **Security note:** This is an educational local text-file authentication system. Passwords are stored in the local account file and the project is not intended to provide production-level password security.
@@ -207,7 +207,7 @@ For a classroom demonstration, change or remove this default account before usin
 
 ## Integration guidance for team members
 
-All classes use the default package, so project classes do not require package imports. Forms should use the existing shared `DataManager` instance instead of creating a second data manager. Keeping one shared instance ensures that records entered in one view are immediately available to the other views and to the summary and administrator screens.
+All classes use the default package, so project classes do not require package imports. Forms should use the existing shared `DataManager` instance instead of creating a second data manager. Keeping one shared instance ensures that records entered in one view are immediately available to the other views and to the summary and administrator screens. The integrated request page preserves the teammate's Food item, Quantity, Reason, urgency radio-button, Submit/Clear, and My Submitted Requests layout while using the user's blue JavaFX theme. The logged-in username is used as the requester name for personal history filtering; because the teammate form has no phone or family-size controls, those compatibility fields are stored as `N/A` and `1`.
 
 A donation can be added through the shared manager using the following pattern:
 

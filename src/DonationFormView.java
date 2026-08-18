@@ -25,6 +25,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+/**
+ * Donation module integrated from the teammate's FoodDonationSystem.
+ *
+ * The visual order and wording intentionally follow the original module:
+ * FOOD DONATE header, donation form, Clear/Submit actions, and My Donation
+ * History table. The implementation is JavaFX so it can replace the old
+ * JavaFX donation screen without embedding a second Swing application.
+ */
 public class DonationFormView {
     private static final String[] CATEGORIES = {
             "Grains & Rice", "Canned Goods", "Vegetables", "Fruits",
@@ -74,10 +82,10 @@ public class DonationFormView {
     private HBox createHeader() {
         Label foodLabel = new Label("FOOD");
         foodLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white;");
-        Label driveLabel = new Label(" DONATE");
-        driveLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #DBEAFE;");
+        Label donateLabel = new Label(" DONATE");
+        donateLabel.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #DBEAFE;");
 
-        HBox title = new HBox(foodLabel, driveLabel);
+        HBox title = new HBox(foodLabel, donateLabel);
         title.setAlignment(Pos.CENTER_LEFT);
 
         Label subtitle = new Label("Community Food Donation Portal");
@@ -86,11 +94,11 @@ public class DonationFormView {
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        Label userPill = new Label("USER  ·  " + navigator.getLoggedInUsername());
-        userPill.setStyle("-fx-background-color: rgba(255,255,255,0.16); -fx-text-fill: white;"
+        Label pagePill = new Label("DONATE FOOD");
+        pagePill.setStyle("-fx-background-color: rgba(255,255,255,0.16); -fx-text-fill: white;"
                 + " -fx-font-weight: bold; -fx-padding: 9 14; -fx-background-radius: 18;");
 
-        HBox header = new HBox(18, heading, spacer, userPill);
+        HBox header = new HBox(18, heading, spacer, pagePill);
         header.setAlignment(Pos.CENTER_LEFT);
         header.setPadding(new Insets(16, 20, 16, 20));
         header.setStyle(UiStyle.header("#1D4ED8", "#2563EB"));
@@ -195,7 +203,10 @@ public class DonationFormView {
 
     private void addColumn(String title, double width,
                            java.util.function.Function<Donation, String> valueProvider) {
-        TableColumn<Donation, String> column = new TableColumn<>(title);
+        TableColumn<Donation, String> column = new TableColumn<>();
+	Label headerLabel = new Label(title);
+    	headerLabel.setStyle("-fx-text-fill: " + UiStyle.TEXT + "; -fx-font-weight: bold;");
+    	column.setGraphic(headerLabel);
         column.setMinWidth(width);
         column.setCellValueFactory(cellData ->
                 new SimpleStringProperty(valueProvider.apply(cellData.getValue())));

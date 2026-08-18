@@ -1,7 +1,9 @@
-
 /**
  * Represents one food assistance request.
- * The status can be updated by the administrator through the Admin Records screen.
+ *
+ * The original family-size/category fields remain available for the existing
+ * application. The additional food-item, quantity, and date fields preserve
+ * the teammate request module's record shape and history table.
  */
 public class FoodRequest {
     private final String requestId;
@@ -12,18 +14,38 @@ public class FoodRequest {
     private final String urgency;
     private final String notes;
     private String status;
+    private final String foodItem;
+    private final int quantity;
+    private final String dateSubmitted;
 
+    /**
+     * Original constructor retained for existing integrations and old records.
+     */
     public FoodRequest(String requestId, String requesterName, String phone,
                        int familySize, String categoryNeeded, String urgency,
                        String notes, String status) {
-        this.requestId = requestId;
-        this.requesterName = requesterName;
-        this.phone = phone;
+        this(requestId, requesterName, phone, familySize, categoryNeeded,
+                urgency, notes, status, "", 0, "");
+    }
+
+    /**
+     * Full constructor used by the integrated request module.
+     */
+    public FoodRequest(String requestId, String requesterName, String phone,
+                       int familySize, String categoryNeeded, String urgency,
+                       String notes, String status, String foodItem, int quantity,
+                       String dateSubmitted) {
+        this.requestId = safe(requestId);
+        this.requesterName = safe(requesterName);
+        this.phone = safe(phone);
         this.familySize = familySize;
-        this.categoryNeeded = categoryNeeded;
-        this.urgency = urgency;
-        this.notes = notes == null ? "" : notes;
+        this.categoryNeeded = safe(categoryNeeded);
+        this.urgency = safe(urgency);
+        this.notes = safe(notes);
         this.status = status == null || status.isBlank() ? "Pending" : status;
+        this.foodItem = safe(foodItem);
+        this.quantity = quantity;
+        this.dateSubmitted = safe(dateSubmitted);
     }
 
     public String getRequestId() {
@@ -62,8 +84,22 @@ public class FoodRequest {
         this.status = status;
     }
 
+    public String getFoodItem() {
+        return foodItem;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getDateSubmitted() {
+        return dateSubmitted;
+    }
+
     /**
      * Returns one safe pipe-separated line for requests.txt.
+     * The original eight columns stay first so old files remain recognizable;
+     * request-module fields are appended.
      */
     public String toFileString() {
         return String.join("|",
@@ -74,10 +110,18 @@ public class FoodRequest {
                 FileStorageService.sanitize(categoryNeeded),
                 FileStorageService.sanitize(urgency),
                 FileStorageService.sanitize(notes),
-                FileStorageService.sanitize(status));
+                FileStorageService.sanitize(status),
+                FileStorageService.sanitize(foodItem),
+                String.valueOf(quantity),
+                FileStorageService.sanitize(dateSubmitted));
     }
 
     public String toDisplayString() {
+        if (!foodItem.isBlank() || quantity > 0) {
+            return requestId + " | " + requesterName + " | " + foodItem
+                    + " | Quantity: " + quantity + " | Urgency: " + urgency
+                    + " | Status: " + status;
+        }
         return requestId + " | " + requesterName + " | " + categoryNeeded
                 + " | Family: " + familySize + " | Urgency: " + urgency
                 + " | Status: " + status;
@@ -86,5 +130,9 @@ public class FoodRequest {
     @Override
     public String toString() {
         return toDisplayString();
+    }
+
+    private static String safe(String value) {
+        return value == null ? "" : value;
     }
 }

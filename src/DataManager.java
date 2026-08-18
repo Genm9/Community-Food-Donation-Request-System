@@ -150,8 +150,11 @@ public class DataManager {
         for (FoodRequest request : requests) {
             String searchableText = (request.getRequestId() + " "
                     + request.getRequesterName() + " "
+                    + request.getFoodItem() + " "
+                    + request.getQuantity() + " "
                     + request.getCategoryNeeded() + " "
                     + request.getUrgency() + " "
+                    + request.getNotes() + " "
                     + request.getStatus()).toLowerCase();
             if (searchableText.contains(searchText)) {
                 result.add(request);

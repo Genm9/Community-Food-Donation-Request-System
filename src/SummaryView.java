@@ -176,13 +176,15 @@ public class SummaryView {
                 writer.write('\ufeff');
 
                 writer.println("--- FOOD REQUESTS ---");
-                writer.println("Request ID,Requester Name,Phone,Family Size,Category Needed,Urgency,Status,Notes");
+                writer.println("Request ID,Requester Name,Phone,Family Size,Category Needed,Urgency,Status,Notes,Food Item,Quantity,Date Submitted");
                 for (FoodRequest req : dataManager.getRequests()) {
-                    writer.printf("%s,%s,%s,%d,%s,%s,%s,%s%n",
+                    writer.printf("%s,%s,%s,%d,%s,%s,%s,%s,%s,%d,%s%n",
                             escapeCsv(req.getRequestId()), escapeCsv(req.getRequesterName()),
                             escapeCsv(req.getPhone()), req.getFamilySize(),
                             escapeCsv(req.getCategoryNeeded()), escapeCsv(req.getUrgency()),
-                            escapeCsv(req.getStatus()), escapeCsv(req.getNotes()));
+                            escapeCsv(req.getStatus()), escapeCsv(req.getNotes()),
+                            escapeCsv(req.getFoodItem()), req.getQuantity(),
+                            escapeCsv(req.getDateSubmitted()));
                 }
 
                 writer.println();

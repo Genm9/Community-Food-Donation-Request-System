@@ -200,11 +200,14 @@ public class AdminView {
             selectionDetails.setText("Request ID: " + request.getRequestId()
                     + "\nRequester: " + request.getRequesterName()
                     + "\nPhone: " + request.getPhone()
+                    + "\nFood Item: " + request.getFoodItem()
+                    + "\nQuantity: " + request.getQuantity()
                     + "\nFamily Size: " + request.getFamilySize()
                     + "\nCategory Needed: " + request.getCategoryNeeded()
                     + "\nUrgency: " + request.getUrgency()
+                    + "\nDate Submitted: " + request.getDateSubmitted()
                     + "\nStatus: " + request.getStatus()
-                    + "\nNotes: " + request.getNotes());
+                    + "\nReason / Notes: " + request.getNotes());
         }
     }
 
