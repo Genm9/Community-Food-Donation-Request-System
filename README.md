@@ -12,13 +12,13 @@ The project uses Java's **default package**: all Java source files are stored di
 |---|---|
 | Account registration | Creates normal `User` accounts, validates the input, checks for duplicate usernames, and stores account data locally. |
 | Role-based login | Routes normal users to the User Dashboard and administrators to the Admin Dashboard after authentication. |
-| Donation management | Allows users to submit food donation information, including donor details, food category, quantity, expiry date, and notes. |
+| Donation management | Uses the integrated FoodDonationSystem layout: Food Item, Quantity, Category, Expiry Date, Pickup Location, Submit/Clear actions, and personal donation history. The page keeps the user's blue theme and stores records in the shared DataManager. |
 | Food-assistance requests | Allows users to submit requests containing requester details, family size, category needed, urgency, and notes. |
 | Record management | Allows administrators to search records, view details, update request status, and delete records. |
 | Summary dashboard | Displays donation and request information, totals, and application status. |
 | Local persistence | Saves accounts, donations, and requests to text files under the `data/` directory. |
 | CSV export | Exports donation and request records in comma-separated values format so they can be opened in spreadsheet applications or used for reporting. |
-| Scrollable forms | Wraps the Donation and Request forms in JavaFX `ScrollPane` containers so all input fields remain accessible when the window is too short to display the complete form. |
+| Scrollable forms | Wraps the integrated Donation and Request forms in JavaFX `ScrollPane` containers so all input fields and the donation history table remain accessible when the window is too short to display the complete form. |
 | Form validation | Checks required fields, phone numbers, positive quantities, passwords, confirmation fields, and other input rules. |
 | Logout | Clears the current login session and returns the application to the Login screen without deleting saved records. |
 
@@ -132,7 +132,7 @@ Because the project uses the default package, the main class is invoked as `Food
 
 ## Data storage
 
-The application uses local text files rather than a database. The `data/` directory is created or populated when records are saved. Each record occupies one line, and fields are separated by the pipe character (`|`). The application sanitises pipe characters and line breaks in user-entered text before saving so that records remain readable.
+The application uses local text files rather than a database. The `data/` directory is created or populated when records are saved. Each record occupies one line, and fields are separated by the pipe character (`|`). Donation records written by the integrated module use the original eight columns followed by `PickupLocation`, `DateSubmitted`, and `Status`; the loader remains backward-compatible with older eight-column donation rows. The application sanitises pipe characters and line breaks in user-entered text before saving so that records remain readable.
 
 ## CSV export
 
@@ -161,13 +161,13 @@ alex|food1234|User
 ### `data/donations.txt`
 
 ```text
-DonationID|DonorName|Phone|FoodName|Category|Quantity|ExpiryDate|Notes
+DonationID|DonorName|Phone|FoodName|Category|Quantity|ExpiryDate|Notes|PickupLocation|DateSubmitted|Status
 ```
 
 Example:
 
 ```text
-D001|Ali Tan|0123456789|Rice|Dry Food|5|30/12/2026|Sealed package
+D001|Ali Tan|N/A|Rice|Dry Food|5|2026-12-30||Community Hall|2026-08-17|PENDING
 ```
 
 ### `data/requests.txt`
@@ -248,7 +248,7 @@ setRoot(new DonationFormView(dataManager, this).build());
 setRoot(new RequestFormView(dataManager, this).build());
 ```
 
-If the team replaces either form class, preserve the shared `dataManager` and navigator arguments unless the application architecture is intentionally changed.
+The integrated `DonationFormView` preserves the teammate's visual order and wording—FOOD DRIVE header, SUBMIT A FOOD DONATION form, Clear/Submit actions, and MY DONATION HISTORY table—while using JavaFX and the user's shared DataManager. The logged-in username is stored as the donor name, the teammate's pickup location is stored as a dedicated donation field, and the original user-project blue theme is applied through `UiStyle`. If the team replaces either form class, preserve the shared `dataManager` and navigator arguments unless the application architecture is intentionally changed.
 
 ## Suggested demonstration flow
 
