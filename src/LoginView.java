@@ -10,9 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-/**
- * Modern login screen for both normal users and administrators.
- */
+
 public class LoginView {
     private final DataManager dataManager;
     private final AppNavigator navigator;

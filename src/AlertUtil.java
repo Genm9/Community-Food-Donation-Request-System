@@ -1,12 +1,9 @@
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-/**
- * Provides consistent JavaFX alerts for information, errors and confirmation.
- */
+
 public final class AlertUtil {
     private AlertUtil() {
         // Utility class: no object should be created.

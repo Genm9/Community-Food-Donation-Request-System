@@ -1,10 +1,3 @@
-/**
- * Represents one food donation submitted to the community food centre.
- *
- * The first eight fields remain compatible with the original application.
- * The additional fields preserve the teammate donation module's pickup,
- * submission-date, and status information.
- */
 public class Donation {
     private final String donationId;
     private final String donorName;
@@ -18,9 +11,7 @@ public class Donation {
     private final String dateSubmitted;
     private final String status;
 
-    /**
-     * Original constructor retained for existing integrations and old records.
-     */
+
     public Donation(String donationId, String donorName, String phone,
                     String foodName, String category, int quantity,
                     String expiryDate, String notes) {
@@ -28,9 +19,6 @@ public class Donation {
                 expiryDate, notes, "", "", "PENDING");
     }
 
-    /**
-     * Full constructor used by the integrated FoodDonation donation module.
-     */
     public Donation(String donationId, String donorName, String phone,
                     String foodName, String category, int quantity,
                     String expiryDate, String notes, String pickupLocation,
@@ -92,11 +80,6 @@ public class Donation {
         return status;
     }
 
-    /**
-     * Returns one safe pipe-separated line for donations.txt.
-     * The first eight columns stay in the original order; new columns are
-     * appended so existing files can still be loaded.
-     */
     public String toFileString() {
         return String.join("|",
                 FileStorageService.sanitize(donationId),

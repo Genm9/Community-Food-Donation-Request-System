@@ -10,9 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-/**
- * Modern registration screen. New accounts are always normal User accounts.
- */
+
 public class RegisterView {
     private final DataManager dataManager;
     private final AppNavigator navigator;

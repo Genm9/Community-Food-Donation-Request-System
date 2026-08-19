@@ -22,14 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
 
-/**
- * Integrated request module.
- *
- * The layout follows the teammate's RequestFormPanel: a request form on the
- * left and the logged-in user's submitted-request table on the right. The
- * Swing controls are represented with JavaFX controls so the module can live
- * inside the existing application navigator and shared DataManager.
- */
+
 public class RequestFormView {
     private static final String PHONE_NOT_PROVIDED = "N/A";
 

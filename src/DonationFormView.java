@@ -25,14 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-/**
- * Donation module integrated from the teammate's FoodDonationSystem.
- *
- * The visual order and wording intentionally follow the original module:
- * FOOD DONATE header, donation form, Clear/Submit actions, and My Donation
- * History table. The implementation is JavaFX so it can replace the old
- * JavaFX donation screen without embedding a second Swing application.
- */
+
 public class DonationFormView {
     private static final String[] CATEGORIES = {
             "Grains & Rice", "Canned Goods", "Vegetables", "Fruits",

@@ -1,7 +1,3 @@
-
-/**
- * Defines navigation actions shared by all JavaFX views.
- */
 public interface AppNavigator {
     void showLogin();
 

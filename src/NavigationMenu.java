@@ -7,10 +7,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-/**
- * Shared taskbar for User and Admin screens.
- * The active page is shown with a coloured button and a left accent line.
- */
+
 public final class NavigationMenu {
     private NavigationMenu() {
     }

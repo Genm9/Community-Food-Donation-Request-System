@@ -15,9 +15,7 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Modern administrator screen for searching, updating and deleting records.
- */
+
 public class AdminView {
     private final DataManager dataManager;
     private final AppNavigator navigator;

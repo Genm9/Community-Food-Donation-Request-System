@@ -6,10 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Main JavaFX application entry point.
- * This class owns the ONE shared DataManager used by every screen.
- */
+
 public class FoodDonationApp extends Application implements AppNavigator {
     private final DataManager dataManager = new DataManager();
     private Stage primaryStage;

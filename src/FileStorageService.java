@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -9,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Handles text-file storage for the whole application.
- * Donations and requests are stored in separate pipe-separated text files.
- */
+
 public final class FileStorageService {
     private static final Path DATA_DIRECTORY = Paths.get("data");
     private static final Path DONATIONS_FILE = DATA_DIRECTORY.resolve("donations.txt");
@@ -185,9 +181,7 @@ public final class FileStorageService {
         return skippedRecords;
     }
 
-    /**
-     * Prevents pipe characters and line breaks from breaking the text-file format.
-     */
+
     public static String sanitize(String value) {
         if (value == null) {
             return "";

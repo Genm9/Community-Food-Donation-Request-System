@@ -2,10 +2,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 
-/**
- * Shared visual styles for the JavaFX application.
- * Keeping styles in one class makes the interface consistent and easier to maintain.
- */
+
 public final class UiStyle {
     public static final String USER_ACCENT = "#2563EB";
     public static final String ADMIN_ACCENT = "#475569";

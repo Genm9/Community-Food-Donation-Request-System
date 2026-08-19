@@ -1,12 +1,8 @@
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Central in-memory data store for the application.
- * Create only ONE DataManager object in FoodDonationApp and pass it to every view.
- */
+
 public class DataManager {
     private final List<Donation> donations = new ArrayList<>();
     private final List<FoodRequest> requests = new ArrayList<>();
@@ -16,10 +12,7 @@ public class DataManager {
         return findAccount(username) != null;
     }
 
-    /**
-     * Creates the demonstration administrator account only when no admin account exists.
-     * Normal users cannot register this reserved username in RegisterView.
-     */
+
     public boolean ensureDefaultAdminAccount() {
         if (usernameExists("admin")) {
             return false;

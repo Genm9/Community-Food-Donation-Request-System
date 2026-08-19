@@ -1,8 +1,3 @@
-
-/**
- * Contains reusable validation methods for the temporary integration forms.
- * Teammates may also call these methods in their final Donation and Request modules.
- */
 public final class ValidationUtil {
     private ValidationUtil() {
         // Utility class: no object should be created.

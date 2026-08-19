@@ -1,10 +1,3 @@
-/**
- * Represents one food assistance request.
- *
- * The original family-size/category fields remain available for the existing
- * application. The additional food-item, quantity, and date fields preserve
- * the teammate request module's record shape and history table.
- */
 public class FoodRequest {
     private final String requestId;
     private final String requesterName;
@@ -18,9 +11,7 @@ public class FoodRequest {
     private final int quantity;
     private final String dateSubmitted;
 
-    /**
-     * Original constructor retained for existing integrations and old records.
-     */
+
     public FoodRequest(String requestId, String requesterName, String phone,
                        int familySize, String categoryNeeded, String urgency,
                        String notes, String status) {
@@ -28,9 +19,7 @@ public class FoodRequest {
                 urgency, notes, status, "", 0, "");
     }
 
-    /**
-     * Full constructor used by the integrated request module.
-     */
+
     public FoodRequest(String requestId, String requesterName, String phone,
                        int familySize, String categoryNeeded, String urgency,
                        String notes, String status, String foodItem, int quantity,
@@ -96,11 +85,7 @@ public class FoodRequest {
         return dateSubmitted;
     }
 
-    /**
-     * Returns one safe pipe-separated line for requests.txt.
-     * The original eight columns stay first so old files remain recognizable;
-     * request-module fields are appended.
-     */
+
     public String toFileString() {
         return String.join("|",
                 FileStorageService.sanitize(requestId),

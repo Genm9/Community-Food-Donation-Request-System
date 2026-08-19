@@ -8,9 +8,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-/**
- * Modern administrator dashboard with role-specific navigation.
- */
+
 public class AdminDashboardView {
     private final DataManager dataManager;
     private final AppNavigator navigator;

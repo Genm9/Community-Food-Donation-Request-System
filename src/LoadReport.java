@@ -1,9 +1,5 @@
-
 import java.util.List;
 
-/**
- * Stores the outcome of loading saved donation and request records.
- */
 public class LoadReport {
     private final List<Donation> donations;
     private final List<FoodRequest> requests;

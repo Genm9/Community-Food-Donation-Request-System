@@ -16,9 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-/**
- * System summary and history screen with role-aware navigation and CSV export.
- */
+
 public class SummaryView {
 
     private final DataManager dataManager;

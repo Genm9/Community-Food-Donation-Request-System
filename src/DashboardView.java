@@ -8,9 +8,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-/**
- * Modern user dashboard with an active Dashboard taskbar item.
- */
+
 public class DashboardView {
     private final DataManager dataManager;
     private final AppNavigator navigator;
